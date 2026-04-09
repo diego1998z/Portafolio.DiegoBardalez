@@ -211,6 +211,7 @@ const newCivilItem = (item?: Partial<CivilItem>): CivilItem => ({ sort_order: it
 export default function App() {
   const [view, setView] = useState<ViewMode>('software')
   const [openAdmin, setOpenAdmin] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [adminWorkspace, setAdminWorkspace] = useState<AdminWorkspace>('software')
   const [profile, setProfile] = useState(fallbackProfile)
   const [profileForm, setProfileForm] = useState<ProfileForm>(toForm(fallbackProfile))
@@ -298,7 +299,13 @@ export default function App() {
             ? 'settings'
             : 'software'
     setAdminWorkspace(nextWorkspace)
+    setMobileMenuOpen(false)
     setOpenAdmin(true)
+  }
+
+  const changeView = (nextView: ViewMode) => {
+    setView(nextView)
+    setMobileMenuOpen(false)
   }
 
   const handleProfileField = (key: keyof ProfileForm, value: string) => {
@@ -446,15 +453,29 @@ export default function App() {
       <div className="archi-grid" aria-hidden="true" />
       <header className="archi-topbar">
         <div className="archi-topbar__inner">
-          <button className="brand-mark" type="button" onClick={() => setView('software')}>{profile.brand_name}</button>
-          <nav className="archi-nav" aria-label="Primary">
-            <button className={`archi-nav__link ${view === 'software' ? 'is-active' : ''}`} type="button" onClick={() => setView('software')}>Ingeniería de software</button>
-            <button className={`archi-nav__link ${view === 'civil' ? 'is-active' : ''}`} type="button" onClick={() => setView('civil')}>Ingeniería civil</button>
-            <button className={`archi-nav__link ${view === 'contact' ? 'is-active' : ''}`} type="button" onClick={() => setView('contact')}>Contacto</button>
-          </nav>
-          <div className="archi-topbar__actions">
-            <button className="admin-link" type="button" onClick={() => openLogin('profile')}>{sessionEmail ? 'Acceso admin' : 'Iniciar sesión'}</button>
-            <button className="primary-cta" type="button" onClick={() => setView('contact')}>Trabajemos juntos</button>
+          <div className="archi-topbar__brandline">
+            <button className="brand-mark" type="button" onClick={() => changeView('software')}>{profile.brand_name}</button>
+            <button
+              className={`archi-menu-toggle ${mobileMenuOpen ? 'is-open' : ''}`}
+              type="button"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="archi-topbar-panel"
+              onClick={() => setMobileMenuOpen((current) => !current)}
+            >
+              <span className="material-symbols-outlined">{mobileMenuOpen ? 'close' : 'menu'}</span>
+              <span>{mobileMenuOpen ? 'Cerrar' : 'Secciones'}</span>
+            </button>
+          </div>
+          <div className={`archi-topbar__panel ${mobileMenuOpen ? 'is-open' : ''}`} id="archi-topbar-panel">
+            <nav className="archi-nav" aria-label="Primary">
+              <button className={`archi-nav__link ${view === 'software' ? 'is-active' : ''}`} type="button" onClick={() => changeView('software')}>Ingeniería de software</button>
+              <button className={`archi-nav__link ${view === 'civil' ? 'is-active' : ''}`} type="button" onClick={() => changeView('civil')}>Ingeniería civil</button>
+              <button className={`archi-nav__link ${view === 'contact' ? 'is-active' : ''}`} type="button" onClick={() => changeView('contact')}>Contacto</button>
+            </nav>
+            <div className="archi-topbar__actions">
+              <button className="admin-link" type="button" onClick={() => openLogin('profile')}>{sessionEmail ? 'Acceso admin' : 'Iniciar sesión'}</button>
+              <button className="primary-cta" type="button" onClick={() => changeView('contact')}>Trabajemos juntos</button>
+            </div>
           </div>
         </div>
       </header>

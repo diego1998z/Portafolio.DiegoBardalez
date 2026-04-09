@@ -140,6 +140,37 @@ img { display: block; max-width: 100%; }
   align-items: center;
   gap: 1rem;
 }
+.archi-topbar__brandline,
+.archi-topbar__panel {
+  display: flex;
+  align-items: center;
+}
+.archi-topbar__brandline {
+  gap: 1rem;
+  min-width: 0;
+}
+.archi-topbar__panel {
+  gap: 2rem;
+  margin-left: auto;
+}
+.archi-menu-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(24, 50, 65, 0.12);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--primary);
+  padding: 0.7rem 0.95rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.archi-menu-toggle .material-symbols-outlined {
+  font-size: 1.1rem;
+}
 .admin-link {
   border: 0;
   background: transparent;
@@ -1178,7 +1209,46 @@ img { display: block; max-width: 100%; }
 .error-copy { color: #ba1a1a; }
 
 @media (max-width: 1080px) {
-  .archi-nav { display: none; }
+  .archi-topbar__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .archi-topbar__brandline {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .archi-menu-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+  .archi-topbar__panel {
+    display: none;
+    width: 100%;
+    margin-left: 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid rgba(194, 199, 204, 0.35);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .archi-topbar__panel.is-open {
+    display: flex;
+  }
+  .archi-nav {
+    display: grid;
+    gap: 0.25rem;
+  }
+  .archi-nav__link {
+    width: 100%;
+    text-align: left;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(194, 199, 204, 0.28);
+  }
+  .archi-nav__link.is-active {
+    border-color: var(--primary);
+  }
   .software-hero,
   .civil-hero,
   .contact-layout,
@@ -1209,6 +1279,7 @@ img { display: block; max-width: 100%; }
   .page-shell { padding-inline: 1.25rem; }
   .archi-topbar { padding: 1rem 1.25rem; }
   .archi-topbar__inner,
+  .archi-topbar__panel,
   .archi-topbar__actions,
   .cta-row,
   .section-header,
@@ -1230,9 +1301,10 @@ img { display: block; max-width: 100%; }
     .architect-admin { grid-template-columns: 1fr; }
     .architect-admin__sidebar { order: 2; }
     .architect-admin__content { padding: 1rem; }
-    .primary-cta,
-    .secondary-cta,
-    .outline-cta,
+  .primary-cta,
+  .secondary-cta,
+  .outline-cta,
+  .archi-menu-toggle,
   .ghost-admin,
   .editor-tabs button,
   .archi-topbar__actions { width: 100%; }
